@@ -12,3 +12,4 @@ Exercices project.
 - Lombok
 - Java 17
 - Logback
+- Jupiter
