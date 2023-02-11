@@ -34,7 +34,4 @@ import lombok.Setter;
 
         @Column(name = "email")
         private String email;
-
-
-
     }
