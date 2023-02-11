@@ -8,12 +8,6 @@
     <artifactId>sda-pp-zdjavapol135</artifactId>
     <version>1.0.0</version>
 
-    <properties>
-        <java.version>17</java.version>
-        <maven.compiler.source>${java.version}</maven.compiler.source>
-        <maven.compiler.target>${java.version}</maven.compiler.target>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -28,6 +22,7 @@
             <version>6.1.6.Final</version>
         </dependency>
 
+
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
@@ -40,5 +35,6 @@
             <artifactId>mysql-connector-j</artifactId>
             <version>8.0.31</version>
         </dependency>
+
     </dependencies>
 </project>
