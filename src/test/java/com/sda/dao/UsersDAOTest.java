@@ -107,6 +107,7 @@ public class UsersDAOTest {
         assertNull(foundUser);
     }
 
+
     private User createUser(String userName) {
         Faker faker = new Faker();
         Name name = faker.name();
@@ -119,6 +120,32 @@ public class UsersDAOTest {
         user.setAge(faker.number().numberBetween(0, 150));
         user.setEmail(faker.internet().emailAddress());
         return user;
+
+    @Test
+    public void updateUserTest() {
+        User user = new User();
+        user.setUsername("testusername");
+        user.setPassword("testpassword");
+        user.setName("testname");
+        user.setSurname("testsurname");
+        user.setAge(30);
+        user.setEmail("testemail@email.com");
+
+        usersDAO.addUser(user);
+        User foundUser = usersDAO.findByUsername("testusername");
+        assertNotNull(foundUser);
+
+        foundUser.setName("newtestname");
+        foundUser.setSurname("newtestsurname");
+        usersDAO.update(foundUser);
+        User updatedUser = usersDAO.findByUsername("testusername");
+        assertEquals("newtestname", updatedUser.getName());
+        assertEquals("newtestsurname", updatedUser.getSurname());
+
+        usersDAO.deleteByUsername("testusername");
+        User deletedUser = usersDAO.findByUsername("testusername");
+        assertNull(deletedUser);
+
     }
 }
 
