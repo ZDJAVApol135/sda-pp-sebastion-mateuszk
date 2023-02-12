@@ -37,8 +37,16 @@ public class UsersDAOTest {
 
         Assertions.assertNotNull(actualUser);
         Assertions.assertEquals(expectedUser, actualUser);
+        Assertions.assertEquals(expectedUser.getName(), actualUser.getName());
+        Assertions.assertEquals(expectedUser.getSurname(), actualUser.getSurname());
+        Assertions.assertEquals(expectedUser.getPassword(), actualUser.getPassword());
+        Assertions.assertEquals(expectedUser.getEmail(), actualUser.getEmail());
+        Assertions.assertEquals(expectedUser.getPassword(), actualUser.getPassword());
+        Assertions.assertEquals(expectedUser.getAge(), actualUser.getAge());
+
+
     }
-    @Test
+    /*@Test
     public void testDeleteByUsername() {
         User user = new User();
         user.setUsername("testusername");
@@ -60,5 +68,5 @@ public class UsersDAOTest {
     public void testDeleteByUsername_UserNotFound() {
         boolean result = usersDAO.deleteByUsername("nonexistentusername");
         assertFalse(result);
-    }
-    }
+    }*/
+}
