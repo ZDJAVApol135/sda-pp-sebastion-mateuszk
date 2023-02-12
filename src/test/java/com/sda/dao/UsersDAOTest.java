@@ -123,7 +123,7 @@ public class UsersDAOTest {
     }
     @Test
     public void updateUserTest() {
-            User user = createUser("testusername");
+        User user = createUser("testusername");
 
         usersDAO.addUser(user);
         User foundUser = usersDAO.findByUsername("testusername");
