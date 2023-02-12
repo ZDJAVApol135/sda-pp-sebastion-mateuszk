@@ -9,7 +9,7 @@ public class UsersDAO {
     public void addUser(User user) {
         Session session = HibernateUtils.openSession();
         Transaction transaction = session.beginTransaction();
-        session.save(user);
+        session.persist(user);
         transaction.commit();
         session.close();
     }
@@ -21,7 +21,7 @@ public class UsersDAO {
         if (user == null) {
             return false;
         }
-        session.delete(user);
+        session.remove(user);
         transaction.commit();
         session.close();
         return true;
