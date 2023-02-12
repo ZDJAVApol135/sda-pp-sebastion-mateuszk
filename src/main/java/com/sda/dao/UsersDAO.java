@@ -31,7 +31,8 @@ public class UsersDAO {
 
     public List<User> findAll() {
         try (Session session = HibernateUtils.openSession()) {
-            return session.createQuery("From User ", User.class).list();
+            List<User> users = session.createQuery("From User ", User.class).list();
+            return users;
         }
     }
     public User findByUsername(String username) {
