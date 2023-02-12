@@ -107,10 +107,23 @@ public class UsersDAOTest {
         assertNull(foundUser);
     }
 
+
+    private User createUser(String userName) {
+        Faker faker = new Faker();
+        Name name = faker.name();
+
+        User user = new User();
+        user.setUsername(userName);
+        user.setPassword(faker.internet().password());
+        user.setName(name.firstName());
+        user.setSurname(name.lastName());
+        user.setAge(faker.number().numberBetween(0, 150));
+        user.setEmail(faker.internet().emailAddress());
+        return user;
+    }
     @Test
     public void updateUserTest() {
-        String username = UUID.randomUUID().toString();
-        User user = createUser(username);
+        User user = createUser("testusername");
 
         usersDAO.addUser(user);
         User foundUser = usersDAO.findByUsername("testusername");
@@ -128,19 +141,28 @@ public class UsersDAOTest {
         assertNull(deletedUser);
 
     }
+    @Test
+    public void testExist_ExistingUsername_ShouldReturnTrue() {
+        // given
+        User user = createUser("testusername");
+        usersDAO.addUser(user);
 
-    private User createUser(String userName) {
-        Faker faker = new Faker();
-        Name name = faker.name();
+        // when
+        boolean result = usersDAO.exist("testusername");
 
-        User user = new User();
-        user.setUsername(userName);
-        user.setPassword(faker.internet().password());
-        user.setName(name.firstName());
-        user.setSurname(name.lastName());
-        user.setAge(faker.number().numberBetween(0, 150));
-        user.setEmail(faker.internet().emailAddress());
-        return user;
+        // then
+        assertTrue(result);
+    }
+
+    @Test
+    public void testExist_NotExistingUsername_ShouldReturnFalse() {
+        // when
+        boolean result = usersDAO.exist("notExistingUsername");
+
+        // then
+        assertFalse(result);
     }
 }
+
+
 
