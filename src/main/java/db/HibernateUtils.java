@@ -5,16 +5,16 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-public class HibernateUtils {
 
+public class HibernateUtils {
 
     private static SessionFactory sessionFactory;
 
-    public Session openSession() {
+    public static Session openSession() {
         return getSessionFactory().openSession();
     }
 
-    private SessionFactory getSessionFactory() {
+    private static SessionFactory getSessionFactory() {
         if (sessionFactory == null) {
             sessionFactory = createSessionFactory();
         }
