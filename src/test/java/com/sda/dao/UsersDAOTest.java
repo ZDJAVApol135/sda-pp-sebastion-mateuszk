@@ -1,5 +1,7 @@
 package com.sda.dao;
 
+import com.github.javafaker.Faker;
+import com.github.javafaker.Name;
 import db.HibernateUtils;
 import model.User;
 import org.hibernate.Session;
@@ -19,13 +21,7 @@ public class UsersDAOTest {
     void AddUserTest() {
         // given
         String username = UUID.randomUUID().toString();
-        User expectedUser = new User();
-        expectedUser.setUsername(username);
-        expectedUser.setAge(25);
-        expectedUser.setName("testname");
-        expectedUser.setSurname("testsurname");
-        expectedUser.setPassword("testpassword!");
-        expectedUser.setEmail("testemail@test.com");
+        User expectedUser = createUser(username);
 
         // when
         usersDAO.addUser(expectedUser);
@@ -46,19 +42,15 @@ public class UsersDAOTest {
 
 
     }
+
     @Test
     public void testDeleteByUsername() {
-        User user = new User();
-        user.setUsername("testusername");
-        user.setPassword("testpassword");
-        user.setName("testname");
-        user.setSurname("testsurname");
-        user.setAge(25);
-        user.setEmail("testemail@test.com");
+        String username = UUID.randomUUID().toString();
+        User user = createUser(username);
 
         usersDAO.addUser(user);
 
-        boolean result = usersDAO.deleteByUsername("testusername");
+        boolean result = usersDAO.deleteByUsername(username);
         assertTrue(result);
 
 
@@ -73,20 +65,9 @@ public class UsersDAOTest {
     @Test
     public void testFindAll() {
         // Given
-        User user1 = new User();
-        user1.setUsername("testusername");
-        user1.setPassword("testpassword");
-        user1.setName("testname");
-        user1.setSurname("testsurname");
-        user1.setAge(25);
-        user1.setEmail("testemail@test.com");
-        User user2 = new User();
-        user2.setUsername("testusernamee");
-        user2.setPassword("testpasswordd");
-        user2.setName("testnamee");
-        user2.setSurname("testsurnamee");
-        user2.setAge(26);
-        user2.setEmail("testemail@testt.com");
+        User user1 = createUser("userName");
+        User user2 = createUser("userName2");
+
         usersDAO.addUser(user1);
         usersDAO.addUser(user2);
 
@@ -102,17 +83,13 @@ public class UsersDAOTest {
     @Test
     public void testFindByUsername() {
         // Given
-        User user = new User();
-        user.setUsername("testusername");
-        user.setPassword("testpassword");
-        user.setName("testname");
-        user.setSurname("testsurname");
-        user.setAge(25);
-        user.setEmail("testemail@test.com");
+        String username = UUID.randomUUID().toString();
+        User user = createUser(username);
+
         usersDAO.addUser(user);
 
         // When
-        User foundUser = usersDAO.findByUsername("testusername");
+        User foundUser = usersDAO.findByUsername(username);
 
         // Then
         assertEquals(user, foundUser);
@@ -121,13 +98,29 @@ public class UsersDAOTest {
     @Test
     public void testFindByUsernameNotFound() {
         // Given
+        String nonexistent = "nonexistent";
 
         // When
-        User foundUser = usersDAO.findByUsername("nonexistent");
+        User foundUser = usersDAO.findByUsername(nonexistent);
 
         // Then
         assertNull(foundUser);
     }
+
+
+    private User createUser(String userName) {
+        Faker faker = new Faker();
+        Name name = faker.name();
+
+        User user = new User();
+        user.setUsername(userName);
+        user.setPassword(faker.internet().password());
+        user.setName(name.firstName());
+        user.setSurname(name.lastName());
+        user.setAge(faker.number().numberBetween(0, 150));
+        user.setEmail(faker.internet().emailAddress());
+        return user;
+
     @Test
     public void updateUserTest() {
         User user = new User();
@@ -152,5 +145,8 @@ public class UsersDAOTest {
         usersDAO.deleteByUsername("testusername");
         User deletedUser = usersDAO.findByUsername("testusername");
         assertNull(deletedUser);
+
     }
 }
+
+
