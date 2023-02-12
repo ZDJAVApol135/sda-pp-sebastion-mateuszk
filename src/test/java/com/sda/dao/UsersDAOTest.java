@@ -128,4 +128,29 @@ public class UsersDAOTest {
         // Then
         assertNull(foundUser);
     }
+    @Test
+    public void updateUserTest() {
+        User user = new User();
+        user.setUsername("testusername");
+        user.setPassword("testpassword");
+        user.setName("testname");
+        user.setSurname("testsurname");
+        user.setAge(30);
+        user.setEmail("testemail@email.com");
+
+        usersDAO.addUser(user);
+        User foundUser = usersDAO.findByUsername("testusername");
+        assertNotNull(foundUser);
+
+        foundUser.setName("newtestname");
+        foundUser.setSurname("newtestsurname");
+        usersDAO.update(foundUser);
+        User updatedUser = usersDAO.findByUsername("testusername");
+        assertEquals("newtestname", updatedUser.getName());
+        assertEquals("newtestsurname", updatedUser.getSurname());
+
+        usersDAO.deleteByUsername("testusername");
+        User deletedUser = usersDAO.findByUsername("testusername");
+        assertNull(deletedUser);
+    }
 }
