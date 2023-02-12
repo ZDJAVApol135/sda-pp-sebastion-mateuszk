@@ -5,6 +5,8 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import model.User;
 
+import java.util.List;
+
 public class UsersDAO {
     public void addUser(User user) {
         Session session = HibernateUtils.openSession();
@@ -26,4 +28,18 @@ public class UsersDAO {
         session.close();
         return true;
     }
+
+    public List<User> findAll() {
+        try (Session session = HibernateUtils.openSession()) {
+            return session.createQuery("From User ", User.class).list();
+        }
+    }
+    public User findByUsername(String username) {
+        try (Session session = HibernateUtils.openSession()) {
+            return session.createQuery("from User where username = :username", User.class)
+                    .setParameter("username", username)
+                    .uniqueResult();
+        }
+    }
+
 }

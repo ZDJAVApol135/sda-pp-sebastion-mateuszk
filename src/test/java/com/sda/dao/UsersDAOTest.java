@@ -6,10 +6,10 @@ import org.hibernate.Session;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class UsersDAOTest {
@@ -36,17 +36,17 @@ public class UsersDAOTest {
         session.close();
 
         Assertions.assertNotNull(actualUser);
-        Assertions.assertEquals(expectedUser, actualUser);
-        Assertions.assertEquals(expectedUser.getName(), actualUser.getName());
-        Assertions.assertEquals(expectedUser.getSurname(), actualUser.getSurname());
-        Assertions.assertEquals(expectedUser.getPassword(), actualUser.getPassword());
-        Assertions.assertEquals(expectedUser.getEmail(), actualUser.getEmail());
-        Assertions.assertEquals(expectedUser.getPassword(), actualUser.getPassword());
-        Assertions.assertEquals(expectedUser.getAge(), actualUser.getAge());
+        assertEquals(expectedUser, actualUser);
+        assertEquals(expectedUser.getName(), actualUser.getName());
+        assertEquals(expectedUser.getSurname(), actualUser.getSurname());
+        assertEquals(expectedUser.getPassword(), actualUser.getPassword());
+        assertEquals(expectedUser.getEmail(), actualUser.getEmail());
+        assertEquals(expectedUser.getPassword(), actualUser.getPassword());
+        assertEquals(expectedUser.getAge(), actualUser.getAge());
 
 
     }
-    /*@Test
+    @Test
     public void testDeleteByUsername() {
         User user = new User();
         user.setUsername("testusername");
@@ -68,5 +68,64 @@ public class UsersDAOTest {
     public void testDeleteByUsername_UserNotFound() {
         boolean result = usersDAO.deleteByUsername("nonexistentusername");
         assertFalse(result);
-    }*/
+    }
+
+    @Test
+    public void testFindAll() {
+        // Given
+        User user1 = new User();
+        user1.setUsername("testusername");
+        user1.setPassword("testpassword");
+        user1.setName("testname");
+        user1.setSurname("testsurname");
+        user1.setAge(25);
+        user1.setEmail("testemail@test.com");
+        User user2 = new User();
+        user2.setUsername("testusernamee");
+        user2.setPassword("testpasswordd");
+        user2.setName("testnamee");
+        user2.setSurname("testsurnamee");
+        user2.setAge(26);
+        user2.setEmail("testemail@testt.com");
+        usersDAO.addUser(user1);
+        usersDAO.addUser(user2);
+
+        // When
+        List<User> users = usersDAO.findAll();
+
+        // Then
+        assertEquals(2, users.size());
+        assertTrue(users.contains(user1));
+        assertTrue(users.contains(user2));
+    }
+
+    @Test
+    public void testFindByUsername() {
+        // Given
+        User user = new User();
+        user.setUsername("testusername");
+        user.setPassword("testpassword");
+        user.setName("testname");
+        user.setSurname("testsurname");
+        user.setAge(25);
+        user.setEmail("testemail@test.com");
+        usersDAO.addUser(user);
+
+        // When
+        User foundUser = usersDAO.findByUsername("testusername");
+
+        // Then
+        assertEquals(user, foundUser);
+    }
+
+    @Test
+    public void testFindByUsernameNotFound() {
+        // Given
+
+        // When
+        User foundUser = usersDAO.findByUsername("nonexistent");
+
+        // Then
+        assertNull(foundUser);
+    }
 }
