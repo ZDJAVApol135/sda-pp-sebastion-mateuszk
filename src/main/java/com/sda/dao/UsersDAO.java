@@ -49,4 +49,10 @@ public class UsersDAO {
         session.getTransaction().commit();
         session.close();
     }
+    public boolean exist(String username) {
+        Session session = HibernateUtils.openSession();
+        User user = session.get(User.class, username);
+        session.close();
+        return user != null;
+    }
 }

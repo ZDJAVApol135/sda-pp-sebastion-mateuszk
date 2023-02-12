@@ -120,16 +120,10 @@ public class UsersDAOTest {
         user.setAge(faker.number().numberBetween(0, 150));
         user.setEmail(faker.internet().emailAddress());
         return user;
-
+    }
     @Test
     public void updateUserTest() {
-        User user = new User();
-        user.setUsername("testusername");
-        user.setPassword("testpassword");
-        user.setName("testname");
-        user.setSurname("testsurname");
-        user.setAge(30);
-        user.setEmail("testemail@email.com");
+            User user = createUser("testusername");
 
         usersDAO.addUser(user);
         User foundUser = usersDAO.findByUsername("testusername");
@@ -147,6 +141,28 @@ public class UsersDAOTest {
         assertNull(deletedUser);
 
     }
+    @Test
+    public void testExist_ExistingUsername_ShouldReturnTrue() {
+        // given
+        User user = createUser("testusername");
+        usersDAO.addUser(user);
+
+        // when
+        boolean result = usersDAO.exist("testusername");
+
+        // then
+        assertTrue(result);
+    }
+
+    @Test
+    public void testExist_NotExistingUsername_ShouldReturnFalse() {
+        // when
+        boolean result = usersDAO.exist("notExistingUsername");
+
+        // then
+        assertFalse(result);
+    }
 }
+
 
 
