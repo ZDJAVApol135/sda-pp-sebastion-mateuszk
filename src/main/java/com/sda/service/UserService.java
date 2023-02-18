@@ -21,5 +21,18 @@ public class UserService {
                 .toList();
 
     }
-
+    public UserDTO findByUsername(String username) {
+        User user = userDAO.findByUsername(username);
+        if (user == null) {
+            throw new NotFoundException("User not found for username: " + username);
+        }
+        return UserMapper.map(user);
+    }
+    public void deleteByUsername(String username) {
+        User user = userDAO.findByUsername(username);
+        if (user == null) {
+            throw new NotFoundException("User with username " + username + " not found");
+        }
+        userDAO.deleteByUsername(String.valueOf(user));
+    }
 }
