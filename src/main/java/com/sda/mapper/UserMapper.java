@@ -5,7 +5,7 @@ import model.User;
 
 public class UserMapper {
 
-    public UserDTO map(User user) {
+    public static UserDTO map(User user) {
         return UserDTO.builder()
                 .username(user.getUsername())
                 .name(user.getName())
