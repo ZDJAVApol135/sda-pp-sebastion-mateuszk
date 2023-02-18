@@ -11,9 +11,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import model.User;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+
+
+
 public record UserDTO(String username,
                       String name,
                       String surname,
