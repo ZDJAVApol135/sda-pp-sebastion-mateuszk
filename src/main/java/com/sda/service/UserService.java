@@ -1,7 +1,7 @@
 package com.sda.service;
 
 import com.sda.dao.UsersDAO;
-import com.sda.dto.UserDTO;
+import com.sda.exception.dto.UserDTO;
 import com.sda.exception.NotFoundException;
 import com.sda.exception.UsernameConflictException;
 import com.sda.mapper.UserMapper;
