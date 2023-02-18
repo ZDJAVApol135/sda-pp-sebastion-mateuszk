@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import com.sda.dao.UsersDAO;
 import com.sda.dto.UserDTO;
 import com.sda.exception.NotFoundException;
+import com.sda.exception.UsernameConflictException;
 import com.sda.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import model.User;
@@ -34,5 +35,24 @@ public class UserService {
             throw new NotFoundException("User with username " + username + " not found");
         }
         userDAO.deleteByUsername(String.valueOf(user));
+    }
+
+    public void create(User user) {
+        if(userDAO.exist(user.getUsername())) {
+            throw new UsernameConflictException("User with username " + user.getUsername() + " already exists");
+        }
+        userDAO.addUser(user);
+    }
+    public UserDTO update(User user, String username) {
+        if (!username.equals(user.getUsername())) {
+            throw new UsernameConflictException("Username in URL and in user object must be the same.");
+        }
+
+        if (!userDAO.exist(username)) {
+            throw new NotFoundException("User with username '" + username + "' not found.");
+        }
+
+        userDAO.update(user);
+        return userMapper.map(user);
     }
 }
