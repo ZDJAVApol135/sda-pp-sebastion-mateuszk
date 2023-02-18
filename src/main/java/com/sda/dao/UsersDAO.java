@@ -17,7 +17,7 @@ public class UsersDAO {
         return user;
     }
 
-    public static boolean deleteByUsername(String username) {
+    public boolean deleteByUsername(String username) {
         Session session = HibernateUtils.openSession();
         Transaction transaction = session.beginTransaction();
         User user = session.get(User.class, username);
@@ -36,7 +36,7 @@ public class UsersDAO {
             return users;
         }
     }
-    public static User findByUsername(String username) {
+    public  User findByUsername(String username) {
         try (Session session = HibernateUtils.openSession()) {
             return session.createQuery("from User where username = :username", User.class)
                     .setParameter("username", username)
