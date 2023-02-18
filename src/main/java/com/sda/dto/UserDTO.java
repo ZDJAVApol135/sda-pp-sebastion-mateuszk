@@ -36,6 +36,6 @@ public record UserDTO(String username,
         if (user == null) {
             throw new NotFoundException("User with username " + username + " not found");
         }
-        UsersDAO.deleteByUsername(String.valueOf(user));
+        UsersDAO.deleteByUsername(username);
     }
 }
