@@ -30,11 +30,11 @@ public class UserService {
         return UserMapper.map(user);
     }
     public void deleteByUsername(String username) {
-        User user = userDAO.findByUsername(username);
-        if (user == null) {
+        boolean deleted=userDAO.deleteByUsername(username);
+        if (!deleted) {
             throw new NotFoundException("User with username " + username + " not found");
         }
-        userDAO.deleteByUsername(String.valueOf(user));
+
     }
 
     public void create(User user) {
