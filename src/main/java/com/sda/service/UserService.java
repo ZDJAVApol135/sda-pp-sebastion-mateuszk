@@ -52,7 +52,11 @@ public class UserService {
             throw new NotFoundException("User with username '" + username + "' not found.");
         }
 
-        userDAO.update(user);
+    userDAO.update(user);
         return userMapper.map(user);
+        /*
+        LUB
+        *  User update=userDAO.update(user);
+        return userMapper.map(user);*/
     }
 }
