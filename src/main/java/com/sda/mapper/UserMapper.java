@@ -1,6 +1,6 @@
 package com.sda.mapper;
 
-import com.sda.dto.UserDTO;
+import com.sda.exception.dto.UserDTO;
 import model.User;
 
 public class UserMapper {

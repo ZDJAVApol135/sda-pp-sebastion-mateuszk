@@ -1,4 +1,4 @@
-package com.sda.dto;
+package com.sda.exception.dto;
 
 import java.io.Serializable;
 

@@ -3,8 +3,7 @@ package com.sda.dao;
 import com.github.javafaker.Faker;
 import com.github.javafaker.Internet;
 import com.github.javafaker.Name;
-import com.sda.dao.UsersDAO;
-import com.sda.dto.UserDTO;
+import com.sda.exception.dto.UserDTO;
 import com.sda.exception.NotFoundException;
 import com.sda.mapper.UserMapper;
 

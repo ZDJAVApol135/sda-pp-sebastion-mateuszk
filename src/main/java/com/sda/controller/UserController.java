@@ -1,13 +1,15 @@
 package com.sda.controller;
 
-import com.sda.dto.UserDTO;
+import com.sda.exception.dto.UserDTO;
 import com.sda.exception.NotFoundException;
 import com.sda.exception.UsernameConflictException;
 import com.sda.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import model.User;
 
 import java.util.List;
 
+@Slf4j
 public class UserController {
 
     private final UserService userService;
@@ -29,7 +31,7 @@ public class UserController {
             UserDTO user = userService.findByUsername(username);
             System.out.println("User found: " + user);
         } catch (NotFoundException e) {
-            System.out.println(e.getMessage());
+           log.error("NotFoundException: {}",e.getMessage());
         }
     }
     public void deleteByUsername(String username) {
@@ -37,9 +39,9 @@ public class UserController {
             userService.deleteByUsername(username);
             System.out.println("User with username '" + username + "' deleted!");
         } catch (NotFoundException e) {
-            System.err.println("User with username '" + username + "' not found!");
+            log.error("User with username '" + username + "' not found!");
         } catch (Exception e) {
-            System.err.println("Error occurred while deleting user with username '" + username + "': " + e.getMessage());
+            log.error(("Error occurred while deleting user with username '" + username + "': "), e.getMessage());
         }
     }
     public void create(User user) {
@@ -56,11 +58,11 @@ public class UserController {
             System.out.println("User with username '" + username + "' updated!");
             System.out.println("User after update: " + userService.findByUsername(user.getUsername()));
         } catch (NotFoundException e) {
-            System.out.println(e.getMessage());
+            log.error(e.getMessage());
         } catch (UsernameConflictException e) {
-            System.out.println(e.getMessage());
+            log.error(e.getMessage());
         } catch (Exception e) {
-            System.out.println("An error occurred while updating user: " + e.getMessage());
+            log.error("An error occurred while updating user: ", e.getMessage());
         }
     }
 }
