@@ -6,7 +6,13 @@ import model.User;
 public class UserMapper {
 
     public UserDTO map(User user) {
-        return new UserDTO(user.getUsername(), user.getName(), user.getSurname(), user.getAge(), user.getEmail());
+        return UserDTO.builder()
+                .username(user.getUsername())
+                .name(user.getName())
+                .surname(user.getSurname())
+                .age(user.getAge())
+                .email(user.getEmail())
+                .build();
     }
 
 }

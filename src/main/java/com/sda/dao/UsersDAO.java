@@ -8,12 +8,13 @@ import model.User;
 import java.util.List;
 
 public class UsersDAO {
-    public void addUser(User user) {
+    public User addUser(User user) {
         Session session = HibernateUtils.openSession();
         Transaction transaction = session.beginTransaction();
         session.persist(user);
         transaction.commit();
         session.close();
+        return user;
     }
 
     public boolean deleteByUsername(String username) {
@@ -42,17 +43,21 @@ public class UsersDAO {
                     .uniqueResult();
         }
     }
-    public void update(User user) {
+    public User update(User user) {
         Session session = HibernateUtils.openSession();
         session.beginTransaction();
         session.merge(user);
         session.getTransaction().commit();
         session.close();
+        return user;
     }
     public boolean exist(String username) {
-        Session session = HibernateUtils.openSession();
-        User user = session.get(User.class, username);
-        session.close();
-        return user != null;
-    }
+        try(Session session = HibernateUtils.openSession()){
+        String query= "Select count(1) From User u WHERE u.username=:username";
+      Long userscount=  session.createQuery(query,Long.class)
+                        .setParameter("username",username)
+                                .uniqueResult();
+
+        return userscount >0;
+    }}
 }
